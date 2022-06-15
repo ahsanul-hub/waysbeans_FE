@@ -156,6 +156,9 @@ code {
     color: #000000;
   }
   
+  .product{
+    background-color: #F6E6DA;
+  }
   /*products*/
   .products {
     display: flex;
@@ -374,6 +377,7 @@ code {
     color: #613d2b;
     margin-left: 8px;
     margin-right: 8px;
+    padding-left: 8px;
   }
   .qty button {
     width: 12px;
@@ -459,3 +463,8 @@ code {
     width: auto;
     height: 400px;
   }
+
+
+  /*  */
+
+  

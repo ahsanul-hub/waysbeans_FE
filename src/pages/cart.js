@@ -35,7 +35,7 @@ export default function Cart() {
                     
                       <div >
                         <div className="menu">
-                          <div className="product">
+                          <div className="product" style={{backgroundColor:"white"}}>
                             <img src={Guetemala} alt="menu pict" />
                             <div className="qty">
                               <p>kopi</p>
@@ -49,7 +49,7 @@ export default function Cart() {
                                 type="number"
                                 value={8}
                                 readOnly
-                                style={{textAlign:"center" ,padding:"0 !important"}}
+                                // style={{}
                               />
                               <button
                                 type="button"
