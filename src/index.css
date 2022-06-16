@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.dropdown-toggle::after {
+  display: none !important; 
+}
+
   .Header {
     margin-bottom: 0;
   }

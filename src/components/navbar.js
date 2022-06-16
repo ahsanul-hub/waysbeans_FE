@@ -120,8 +120,8 @@ const [show, setShow] = useState(false);
 
 
   useEffect(() => {
-    console.log(state.isLogin)
-  }, []);
+    console.log(state.user.status)
+  }, [state]);
     return (
         <div>
             <nav>             
@@ -275,6 +275,8 @@ const [show, setShow] = useState(false);
                       />
                     }
                   >
+                    { state.user.status == "customer" ? (
+                      <div>
                     <Link
                       className="dropdownItem"
                       to="/profile"
@@ -303,9 +305,40 @@ const [show, setShow] = useState(false);
                       <span className="dropdownText">Complain</span>
                     </Link>
                     <Dropdown.Divider />
+                    </div>
+                    ):(
+                      <div>
+                      <Link
+                      className="dropdownItem"
+                      to="/addProduct"
+                      style={{ textDecoration: "none" }}
+                    >
+                     
+                      <img
+                        src={coffee}
+                        className="dropdownPict"
+                        alt="profile"
+                      />
+                      <span className="dropdownText">Add Product</span>
+                    </Link>
+                    <Dropdown.Divider />
+                    <Link
+                      className="dropdownItem"
+                      to="/complain"
+                      style={{ textDecoration: "none" }}
+                    >
+                      <img
+                        src={chat}
+                        className="dropdownPict"
+                        alt="profile"
+                      />
+                      <span className="dropdownText">Complain</span>
+                    </Link>
+                    <Dropdown.Divider />
+                    </div>
+                    )}
                     <Dropdown.Item
                       className="dropdownItem"
-                      href="#"
                       onClick={logout}
                       style={{ padding: 0 }}
                     >
