@@ -9,6 +9,7 @@ import logout from "../assets/logout.png"
 import zayn from "../assets/zayn.png"
 import chat from "../assets/chat.png"
 
+import { API } from "../config/api";
 
 
 export default function Navbar() {
@@ -16,6 +17,34 @@ export default function Navbar() {
     const [register, setRegister] = useState(false);
   const [login, setLogin] = useState(false);
 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [formLogin, setFormLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const { emailLogin, passwordLogin } = formLogin;
+
+
+  const { name, email, password } = form;
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLoginChange = (e) => {
+    setFormLogin({
+      ...formLogin,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const closeReg = () => setRegister(false);
   const showReg = () => setRegister(true);
@@ -29,6 +58,47 @@ const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const body = JSON.stringify(form);
+
+      const response = await API.post("/register", body, config);
+      console.log(response.data);
+      setRegister(false)
+    } catch (error) {
+    
+      console.log(error);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      
+      const body = JSON.stringify({email : formLogin.emailLogin, password: formLogin.passwordLogin});
+
+      const response = await API.post("/login", body, config);
+      console.log(response.data);
+      setLogin(false)
+    } catch (error) {
+      console.log(formLogin)
+      console.log(error);
+    }
+  };
     return (
         <div>
             <nav>             
@@ -64,27 +134,27 @@ const [show, setShow] = useState(false);
                 <Modal.Body 
                 className="modalBody"
                 >
-                  <form className="form" onSubmit={showReg}>
+                  <form className="form" onSubmit={handleSubmit}>
                     <input
                       type="email"
                       placeholder="Email"
-                    //   onChange={handleRegChange}
-                    //   value={email}
+                      onChange={handleChange}
+                      value={email}
                       name="email"
                     />
                     <input
                       type="password"
                       placeholder="Password"
-                    //   onChange={handleRegChange}
-                    //   value={password}
+                      onChange={handleChange}
+                      value={password}
                       name="password"
                     />
                     <input
-                      type="text"
+                      type="name"
                       placeholder="Full Name"
-                    //   onChange={handleRegChange}
-                    //   value={fullname}
-                      name="fullname"
+                      onChange={handleChange}
+                      value={name}
+                      name="name"
                     />
 
                     <button type="submit">Register</button>
@@ -129,22 +199,20 @@ const [show, setShow] = useState(false);
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="modalBody">
-                  <form className="form" onSubmit={showLogin}>
+                  <form className="form" onSubmit={handleLogin}>
                     <input
-                      type="email"
-                      placeholder="Email"
-                      id="email"
-                    //   onChange={handleLogChange}
-                    //   required
-                    //   value={logEmail}
-                      name="email"
+                       type="email"
+                       placeholder="Email"
+                       onChange={handleLoginChange}
+                       value={emailLogin}
+                       name="email"
                     />
                     <input
-                      type="password"
-                      placeholder="Password"
-                    //   onChange={handleLogChange}
-                    //   value={logPassword}
-                      name="password"
+                     type="password"
+                     placeholder="Password"
+                     onChange={handleLoginChange}
+                     value={passwordLogin}
+                     name="password"
                     />
                     <button type="submit">Login</button>
                   </form>
