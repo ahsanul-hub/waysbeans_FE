@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState, useEffect  } from "react";
+import { UserContext } from "../context/userContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal, Dropdown, Button, NavDropdown } from "react-bootstrap";
 import Icon from "../assets/Icon.png"
@@ -9,14 +10,14 @@ import logout from "../assets/logout.png"
 import zayn from "../assets/zayn.png"
 import chat from "../assets/chat.png"
 
-import { API } from "../config/api";
+import { API, setAuthToken } from "../config/api";
 
 
 export default function Navbar() {
-
-    const [register, setRegister] = useState(false);
+  let navigate = useNavigate();
+  const [register, setRegister] = useState(false);
   const [login, setLogin] = useState(false);
-
+  const [state, dispatch] = useContext(UserContext);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -89,20 +90,44 @@ const [show, setShow] = useState(false);
         },
       };
       
-      const body = JSON.stringify({email : formLogin.emailLogin, password: formLogin.passwordLogin});
+      const body = JSON.stringify({email : formLogin.email, password: formLogin.password});
 
       const response = await API.post("/login", body, config);
-      console.log(response.data);
+      // setAuthToken(response.data.data.user.token);
+
+      if (response?.status == 200) {
+        // Send data to useContext
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: response.data.data.user,
+        });
+
+        // Status check
+        if (response.data.data.user.status == "admin") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/");
+        }
+
+       
+      }
       setLogin(false)
     } catch (error) {
       console.log(formLogin)
       console.log(error);
     }
   };
+
+
+  useEffect(() => {
+    console.log(state.isLogin)
+  }, []);
     return (
         <div>
             <nav>             
             <img src={Icon} className="icon" alt="icon" />
+            {!state.isLogin ? (
+              <div>
                 <span className="buttons">
                   <button onClick={showLogin} className="LoginBTN">
                     Login
@@ -234,7 +259,9 @@ const [show, setShow] = useState(false);
                   </p>
                 </Modal.Footer> 
                </Modal>
-               {/* <span className="buttons">
+               </div>
+               ):(
+                <span className="buttons">
               
                     <img src={cart} alt="cart" />
               
@@ -290,7 +317,7 @@ const [show, setShow] = useState(false);
                       <span className="dropdownText">Logout</span>
                     </Dropdown.Item>
                   </NavDropdown>
-                </span> */}
+                </span> )}
             </nav>
         </div>
       );
