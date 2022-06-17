@@ -13,20 +13,19 @@ import Jumbotron from "../assets/Jumbotron.png"
 // import { UserContext } from "../context/userContext";
 
 //API config
-// import { API, setAuthToken } from "../config/api";
+import { API, setAuthToken } from "../config/api";
 
 export default function AddProduct() {
   let navigate = useNavigate();
 
   const [modal, setModal] = useState(false);
   const [preview, setPreview] = useState(null);
-  const [products, setProducts] = useState([]);
   const [form, setForm] = useState({
     name: "",
-    stock: "",
+    qty: "",
     price: "",
-    description: "",
-    photo: "",
+    desc: "",
+    image: "",
   });
 
   const handleChange = (e) => {
@@ -45,9 +44,40 @@ export default function AddProduct() {
   const modalClose = () => {
     setModal(false);
     // navigate("/addproduct");
-    window.location.reload();
   };
   const showModal = () => setModal(true);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+
+      const config = {
+        headers: {
+          "Content-type": "multipart/form-data"
+        }
+      }
+
+      const formData = new FormData()
+      formData.set("image", form.image[0], form.image[0].name)
+      formData.set("name", form.name)
+      formData.set("desc", form.desc)
+      formData.set("price", form.price)
+      formData.set("qty", form.qty)
+      
+
+      const response = await API.post('/product', formData, config)
+
+      console.log(response);
+
+      navigate("/admin-dashboard");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    console.log(form)
+  }, [form]);
 
   return (
     <>
@@ -56,7 +86,7 @@ export default function AddProduct() {
         <div className="AddProduct">
           <h4>Add Product</h4>
           <form className="editProfilForm" 
-        //   onSubmit={handleSubmit}
+          onSubmit={handleSubmit}
           >
             <input
               type="text"
@@ -68,7 +98,7 @@ export default function AddProduct() {
             <input
               type="number"
               placeholder="Stock"
-              name="stock"
+              name="qty"
               className="inputPrice"
               onChange={handleChange}
             />
@@ -83,7 +113,7 @@ export default function AddProduct() {
               placeholder="Description Product"
               className="inputDesc"
               onChange={handleChange}
-              name="description"
+              name="desc"
             />
 
             <label htmlFor="file" className="inputFile">
@@ -94,7 +124,7 @@ export default function AddProduct() {
               type="file"
               hidden
               id="file"
-              name="photo"
+              name="image"
               onChange={handleChange}
               aria-label="File browser example"
             />
@@ -112,8 +142,6 @@ export default function AddProduct() {
           )}
         </div>
       </div>
-     
-    
     </>
   );
 }

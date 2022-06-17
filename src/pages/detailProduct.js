@@ -1,9 +1,63 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Guetemala from "../assets/Guetemala.png"
 
+import { API } from "../config/api";
 
 export default function  Detail() {
+    const [product, setProduct] = useState([]);
+    const [message, setMessage] = useState(null);
+    let navigate = useNavigate();  
+
+    const { id } = useParams();
+  const getProduct = async () => {
+    try {
+      const response = await API.get("/product/" + id);
+      setProduct(response.data.data);
+        console.log(product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAddCart = async (e) => {
+    try {
+      e.preventDefault();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      // let idProduct = id;
+      const body = JSON.stringify({ idProduct: id });
+
+      const response = await API.post("/cart", body, config);
+      console.log(response);
+
+      // Checking process
+    //   if (response?.status == 200) {
+    //     const alert = (
+    //       <Alert variant="success" className="py-1">
+    //         Add Cart success
+    //       </Alert>
+    //     );
+    //     setMessage(alert);
+    //     navigate("/cart");
+    //   }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+    console.log(product)
+    
+  }, []);
+
     return (
         <>
             <Navbar/>
@@ -13,23 +67,18 @@ export default function  Detail() {
                 </div>
                 <div className="detailRight">
                     <div className="headingDetail">
-                        <h1>GUETEMALA Beans</h1>
-                        <p>Stock : 500</p>
+                        <h1>{product.name}</h1>
+                        <p>Stock : {product.qty}</p>
                     </div>
                     <div className="contentDetail">
-                        <p>Hampir semua referensi sepakat mengatakan bahwa kopi pertama kali ditemukan
-                            di Ethiopia, meskipun ada juga beberapa protes yang menyatakan bahwa Coffea 
-                            arabica sebenarnya muncul pertama kali di bagian selatan Sudan. Karena para 
-                            gembala Ethiopia adalah manusia pertama yang mengonsumsi kopi—walau saat itu 
-                            mereka baru mengonsumsi buah/cherry-nya saja, maka gagasan tentang “Ethiopia 
-                            sebagai tempat asal kopi” pun semakin kuat.
+                        <p>{product.desc}
                         </p>
                     </div>
                     <div className="price">
-                        <h3>Rp.300.900</h3>
+                        <h3>Rp.{product.price}</h3>
                     </div>
                     <div className="btnDetail">
-                        <button>Add Cart</button>
+                        <button onClick={handleAddCart}>Add Cart</button>
                     </div>
 
                 </div>
