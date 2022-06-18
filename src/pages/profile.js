@@ -8,15 +8,37 @@ import Navbar from "../components/navbar.js";
 import Guetemala from "../assets/Guetemala.png"
 import Trash from "../assets/trash.svg"
 import styles from "../styles/Profile.module.css";
-
+import { API } from "../config/api";
+import { UserContext } from "../context/userContext";
+import Zayn from "../assets/zayn.png"
 
 
 
 
 export default function Profile() {
+  const [profile, setProfile] = useState([]);
+  const [transaction, setTransaction] = useState([]);
+  const [state, dispatch] = useContext(UserContext);
+  const [isNull, setIsNull] = useState(false);
 
 
+  const getProfile = async () => {
+    try {
+      const response = await API.get("/profile");
+      setProfile(response.data.data);
+      // console.log(response.data.data.image.slice(-4));
+      if(response.data.data.image.slice(-4) == "null"){
+        setIsNull(true)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    getProfile();
+    // console.log(state)
+  }, []);
   return (
     <>
       <Navbar />
@@ -25,19 +47,28 @@ export default function Profile() {
           <div className={styles.myProfile}>
             <h4>My Profile</h4>
             <div className={styles.infoPerson}>
+              {isNull ?(
               <div className="profilePic">
                 <img
                   className={styles.profilePhoto}
                   id="outputProfile"
-                  src={Guetemala}
-                  alt="Profile"
-                />
-              </div>
+                  src={Zayn}
+                  />
+                  </div>
+                ):(
+                  <div className="profilePic">
+                  <img
+                    className={styles.profilePhoto}
+                    id="outputProfile"
+                    src={profile?.image}
+                    />
+                    </div>
+                )}
               <article>
                 <h5>Full Name</h5>
-                <p>Radif Ganteng</p>
+                <p>{state.user.name}</p>
                 <h5>Email</h5>
-                <p>aldi@mail.com</p>
+                <p>{state.user.email}</p>
               </article>
             </div>
           </div>

@@ -5,6 +5,7 @@ import Cart from "./pages/cart";
 import Profile from "./pages/profile";
 import AdminDashboard from "./pages/adminDashboard";
 import Complain from "./pages/complain";
+import ComplainAdmin from "./pages/complainAdmin";
 import Detail from "./pages/detailProduct";
 import { UserContext } from "./context/userContext";
 import { useContext, useEffect } from "react";
@@ -70,6 +71,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/complain" element={<Complain />} />
+      <Route path="/complain-admin" element={<ComplainAdmin />} />
       <Route path="/detail-product/:id" element={<Detail />} />
 
     </Routes>

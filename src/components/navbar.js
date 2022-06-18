@@ -124,7 +124,7 @@ export default function Navbar() {
 
       console.log(isAdmin);
     } catch (error) {
-      console.log(formLogin)
+      // console.log(formLogin)
       console.log(error);
     }
   };
@@ -146,7 +146,7 @@ export default function Navbar() {
   useEffect(() => {
     checkAdmin()
     getProductCart()
-    console.log(isAdmin)
+    // console.log(isAdmin)
   }, [state]);
     return (
         <div>
@@ -332,7 +332,7 @@ export default function Navbar() {
                     <Dropdown.Divider />
                     <Link
                       className="dropdownItem"
-                      to=""
+                      to="/complain"
                       style={{ textDecoration: "none" }}
                     >
                      
@@ -363,7 +363,7 @@ export default function Navbar() {
                     <Dropdown.Divider />
                     <Link
                       className="dropdownItem"
-                      to="/complain"
+                      to="/complain-admin"
                       style={{ textDecoration: "none" }}
                     >
                       <img

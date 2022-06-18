@@ -1,20 +1,33 @@
 import React from 'react'
 import ProfileComplain from '../assets/ProfileComplain 1.png'
 
- export default function Contact () {
+ export default function Contact ({ dataContact, clickContact, contact}) {
     return (
         <>
-                <div className="leftComplain">
+            {dataContact.length > 0 && (
+                <>
+                {dataContact.map((item) => (
+                <div 
+                    key={item.id}
+                    className={`leftComplain ${
+                        contact?.id === item?.id && "contact-active"
+                      }`}
+                      onClick={() => {
+                        clickContact(item);
+                      }}
+                >
                     <div className='contact'>
                         <div className="leftContact">
-                            <img src= {ProfileComplain} alt="profile"/>
+                            <img src= {item.profile?.image || ProfileComplain} alt="profile"/>
                         </div>
                         <div className="rightContact">
-                            <h6>Radif B aja</h6>
+                            <h6>{item.name}</h6>
                         </div>
                     </div>
                 </div>
+                ))}
+                </>
+            )}    
         </>
     )
 }
-

@@ -81,36 +81,70 @@ export default function Cart() {
     }
   };
 
-  const handleAddTransaction = (e) => {
-    // e.preventDefault();
-    let price = parseInt(e.target.value);
-    const checked = e.target.checked;
+  const handleBuy = async () => {
+    try {
+      // e.preventDefault();
 
-    // console.log(checked);
-    // console.log(price);
-    // if (!total) {
-    // setTotal(price);
-    // } else {
-    // setTotal(total + price);
-    // }
-    // console.log(total);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
 
-    if (checked) {
-      // let total += e.target.value
-      // if (!total) {
-      setTotal(parseInt(total + price));
-    } else {
-      setTotal(parseInt(total - price));
+      const data ={
+        price : total,
+        qty: qty,
+        product: products
+      }
+      
+      const body = JSON.stringify(data);
+      const response = await API.post(
+        "/transaction/",
+        body,
+        config
+      );
+      console.log(response);
+
+      // Checking process
+      // if (response?.status == 200) {
+      //   const alert = (
+      //     <Alert variant="success" className="py-1">
+      //       Add Transaction success
+      //     </Alert>
+      //   );
+      //   setMessage(alert);
+      //   navigate("/profile");
+      // }
+
+      const token = response.data.payment.token;
+
+      // // Init Snap for display payment page with token here ...
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          navigate("/profile");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          navigate("/profile");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          API.delete(`/transaction/${response.data.id}`);
+          alert("you closed the popup without finishing the payment");
+        },
+      });
+    } catch (error) {
+      console.log(error);
     }
-    // }
-    console.log(total);
-    // else {
-    //   let newCategoryId = categoryId.filter((categoryIdItem) => {
-    //     return categoryIdItem != id;
-    //   });
-    //   setCategoryId(newCategoryId);
-    // }
   };
+
 
   const deleteById = async (id) => {
     try {
@@ -124,6 +158,20 @@ export default function Cart() {
   useEffect(() => {
     getProductCart();
     getQty()
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = "Client key here ...";
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
   }, []);
 
 
@@ -212,7 +260,7 @@ export default function Cart() {
 
                   <div className="orderBtn">
                     <button type="button" 
-                    // onClick={() => navigate("/shipment")}
+                   onClick={handleBuy}
                     >
                       Pay
                     </button>

@@ -161,6 +161,9 @@ code {
     color: #000000;
   }
   
+  a:active{
+    background-color: transparent !important;
+  }
   .product{
     background-color: #F6E6DA;
     width: 231px;
@@ -668,7 +671,10 @@ code {
 
 .containerComplain .leftComplain {
     flex: 30%;
-    margin-left: 100px;
+    margin-left: 40px;
+   overflow-y: auto !important;
+   max-height: 650px;
+
 }
 
 .leftComplain .contact {
@@ -676,6 +682,7 @@ code {
   display: flex;
   padding: 20px;
   border-radius: 10px;
+  margin-bottom: 4px;
 }
 
 .leftComplain .leftContact {
@@ -693,7 +700,7 @@ code {
     margin-right: 100px;
 }
 
-.rightComplain .chat .headerChat {
+.rightComplain .headerChat {
   display: flex;
   background-color: #C4C4C4;
   border-radius: 10px 10px 0px 0px; 
@@ -727,10 +734,10 @@ h5 {
 
 .containerMassage {
   background-color: #DFDFDF;
-  border-radius: 0px 0px 10px 10px;
   height: 500px;
   margin-bottom: 20px;
   padding: 15px;
+  overflow-y: auto !important;
 }
 
 .containerMassage p {
@@ -738,13 +745,13 @@ h5 {
 }
 
 .containerMassage .chatOne {
-  display: flex;
-  justify-content: start;
-  width: 306px;
+  /* display: flex; */
+  max-width: 49%;
+  max-height: none !important;
   background: #FFFFFF;
-  box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  padding: 10px 8px 0px 8px;
+  padding:10px 15px;
+  margin: 7px 0px;
 }
 
 .containerMassage .chatTwo {
@@ -759,7 +766,13 @@ h5 {
 
 .massage {
   display: flex;
-  margin-top: 180px;
+  margin-top: -20px;
+  background-color: #DFDFDF;
+  margin-bottom: 50px;
+  padding-bottom: 10px;
+  border-radius: 0 0 10px 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .massage .input{
@@ -868,3 +881,30 @@ h5 {
     cursor: pointer;
   }
   
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+  
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0;
+    background: #DFDFDF;
+  
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #424242;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #DFDFDF;
+  }
