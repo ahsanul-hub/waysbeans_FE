@@ -39,7 +39,7 @@ export default function Chat ({contact, user, messages, sendMessage}) {
                             <input placeholder="Write your message here ..." type="text" onKeyPress={sendMessage} />
                         </div>
                         <div className="iconSend">
-                            <img src= {iconSend} alt='send' onKeyPress={sendMessage} />
+                            <img src= {iconSend} alt='send' onClick={sendMessage} />
                         </div>
                     </div>
                 </div>

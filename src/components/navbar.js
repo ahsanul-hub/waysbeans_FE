@@ -130,7 +130,7 @@ export default function Navbar() {
   };
 
   const checkAdmin = () =>{
-    if(state.user.name == "admin"){
+    if(state.user.status == "admin"){
       setIsAdmin(true)
     }
   }

@@ -1,17 +1,30 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Modal, Dropdown, NavDropdown } from "react-bootstrap";
+import { Modal, Dropdown, NavDropdown,Container,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar.js";
 import Guetemala from "../assets/Guetemala.png"
 import Trash from "../assets/trash.svg"
 import { API } from "../config/api";
 import convertRupiah from "rupiah-format";
+import axios from "axios";
 
 export default function Cart() {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [qty, setQty] = useState(0);
   let navigate = useNavigate();
+  const [dataAddress, setDataAddress] = useState([]);
+  const [postcode, setPostCode] = useState('');
+  const [form, setForm] = useState({
+    postalcode: "",
+  });
+
+  
 
   const getProductCart = async () => {
     try {
@@ -94,7 +107,8 @@ export default function Cart() {
       const data ={
         price : total,
         qty: qty,
-        product: products
+        product: products,
+        address: postcode
       }
       
       const body = JSON.stringify(data);
@@ -157,7 +171,9 @@ export default function Cart() {
 
   useEffect(() => {
     getProductCart();
+    sendMessage()
     getQty()
+    console.log(postcode)
     const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
     //change this according to your client-key
     const myMidtransClientKey = "Client key here ...";
@@ -174,10 +190,79 @@ export default function Cart() {
     };
   }, []);
 
+  const { postalcode } = form;
 
+
+  const handleChange = (e) => {
+    setPostCode(
+       e.target.value,
+    );
+    // console.log(e.target.value)
+  };
+  
+  const sendMessage = async (e) => {
+    try {
+      const response = await axios.get(
+        `https://kodepos.herokuapp.com/search/?q=${e.target.value}`
+      );
+      setDataAddress(response.data.data)
+      console.log(dataAddress)
+    } catch (error) {
+      console.log(error)
+    }}
   return (
     <>
       <Navbar />
+      <Container className="ps-4">
+      <Row className="Order justify-content-end" style={{marginLeft: 60, marginTop :100}}>
+              <Col sm={12} lg={8} className="mb-2" >
+                <InputGroup>
+                  <FormControl
+                    // value={}
+                    size="lg"
+                    placeholder="Input Address and Select"
+                    style={{
+                      fontSize: "0.9em",
+                      height: "50px",
+                      boxShadow: "none",
+                      backgroundColor: "white",
+                      border: "#828282 1px solid"
+                    }}
+                    onKeyPress={sendMessage}
+                  />
+                </InputGroup>
+              </Col>
+                  
+              <Col sm={12} lg={4} className="mapBtn" >
+                {/* <button
+                  // variant=""
+                  // className="orderBtn"
+                  // onClick={handleShowM}
+                  style={{ height: "50px" }}
+                >
+                  Select On Map
+                  <img src=""alt="map icon" className="ml-2" />
+                </button> */}
+                <Form.Select size="lg" style={{
+                      fontSize: "1em",
+                      height: "50px",
+                      boxShadow: "none",
+                      backgroundColor: "white",
+                      border: "#828282 1px solid"
+                    }}
+                    onChange={handleChange}
+                    name="postalcode"
+                    aria-label="Default select example" >
+                          <option>Select Address</option>
+                          {dataAddress.map((item) => (
+                          <option  value={`${item.urban}, ${item.postalcode}`}> {`${item.urban} ${item.subdistrict}, ${item.city} ${item.postalcode}. ${item.province}`} </option>
+                        ))}
+</Form.Select>
+              </Col>
+            </Row>
+      </Container>
+      
+
       <h3 className="myCart">My Cart</h3>
           <div className="cart">
             <form>
