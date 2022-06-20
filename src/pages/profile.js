@@ -46,6 +46,22 @@ export default function Profile() {
     }
   };
 
+  const updateStatus = async (id, status) => {
+    try {
+        const config = {
+            headers: {
+              "Content-type": "application/json",
+            },
+          };
+
+        const body = JSON.stringify({status: status});
+      const response = await API.patch(`/transaction/${id}`, body,config);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getProfile();
     getTransactions();
@@ -124,7 +140,7 @@ export default function Profile() {
                  
                     <button
                       className={styles.statuso}
-                    //   onClick={() => finishTransaction(item.id)}
+                    onClick={()=> {updateStatus(item.id, "completed")}}
                     >
                       Completed
                     </button>

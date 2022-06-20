@@ -63,8 +63,8 @@ function AdminDashboard () {
                         <td>{item.products?.map((item) =>(`${item.name} `))}</td>
                         <td class="yellow">{item.status}</td>
                         <td class="btnAction">
-                            <button class="cancel"  classNAme="pointer" onClick={()=> {updateStatus(item.id, "cancel")}}>Cancel</button>
-                            <button class="approve"  classNAme="pointer" onClick={()=> {updateStatus(item.id, "approve")}}>Approve</button>
+                            <button class="cancel"  className="pointer" onClick={()=> {updateStatus(item.id, "cancel")}}>Cancel</button>
+                            <button class="approve"  className="pointer" onClick={()=> {updateStatus(item.id, "approve")}}>Approve</button>
                         </td>
                     </tr>
                     ))}

@@ -6,7 +6,7 @@
   
 .page h4 {
     color: #613d2b;
-    font-family: avenirb;
+    /* font-family: avenirb; */
     font-weight: 900;
     font-size: 24px;
   }
@@ -25,11 +25,9 @@
     height: cover;
     margin-right: 28px;
   }
-  .infoPerson article {
-    font-family: avenir;
-  }
+  
   .infoPerson h5 {
-    font-family: Avenir;
+    /* font-family: Avenir; */
     font-style: normal;
     font-weight: 800;
     font-size: 18px;
@@ -140,7 +138,7 @@
       rgba(0, 255, 133, 0.1) 100%
     );
     border-radius: 2px;
-    font-family: avenir;
+    /* font-family: avenir; */
     font-weight: 500;
     font-size: 10px;
     display: flex;
@@ -163,12 +161,13 @@
     color: #ffffff;
     border-radius: 2px;
     border: none;
-    font-family: avenir;
+    /* font-family: avenir; */
     font-weight: 500;
     font-size: 10px;
     width: 112px;
     height: 19px;
     margin-top: 13px;
+    cursor: pointer;
   }
   .productr .statusc {
     background-color: rgb(255, 179, 179);
@@ -188,14 +187,14 @@
     margin-bottom: 0;
     font-weight: 900;
     font-size: 14px;
-    font-family: avenirb;
+    /* font-family: avenirb; */
     color: #613d2b;
   }
   .number .date {
     margin-bottom: 1.5em;
     font-weight: 900;
     font-size: 9px;
-    font-family: avenir;
+    /* font-family: avenir; */
     color: #613d2b;
   }
   .number .date b {
@@ -205,13 +204,13 @@
   .productQty {
     margin-bottom: 0.3em;
     font-size: 10px;
-    font-family: avenir;
+    /* font-family: avenir; */
     color: #974a4a;
   }
   .number .subTotal {
     margin-bottom: 0;
     font-weight: 900;
     font-size: 10px;
-    font-family: avenirb;
+    /* font-family: avenirb; */
     color: #974a4a;
   }
