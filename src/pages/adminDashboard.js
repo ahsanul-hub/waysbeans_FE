@@ -13,7 +13,7 @@ function AdminDashboard () {
         try {
           const response = await API.get("/transactions");
           setTransactions(response.data.data);
-          console.log(response.data.data);
+          // console.log(response.data.data);
         } catch (error) {
           console.log(error);
         }
@@ -39,6 +39,38 @@ function AdminDashboard () {
         getTransactions();
       }, []);
 
+      function Action(props){
+        // const { status } = props.props.status
+        let component
+        // switch(props.props.status) {
+        //   case "pending":
+        //     component = <> <button class="cancel"  className="cancel pointer" onClick={()=> {updateStatus(props.id, "cancel")}}>Cancel</button>
+        //     <button class="approve"  className=" approve pointer" onClick={()=> {updateStatus(props.id, "approve")}}>Approve</button> </>
+        //   break
+        //   case "success":
+        //     component = <> <img style={{marginLeft:65}} src={allow}/></>
+        //   break
+        //   case "cancel":
+        //     component = <> <img style={{marginLeft:65}} src={deny}/></>
+        //   case "On The Way":
+        //     component = <><img style={{marginLeft:65}} src={allow}/></>
+        //   break
+        //   default:
+        //     component = <></>
+        // }
+        if(props.props.status == "cancel"){
+          component = <> <button class="cancel"  className="cancel pointer" onClick={()=> {updateStatus(props.props.id, "cancel")}}>Cancel</button>
+            <button class="approve"  className=" approve pointer" onClick={()=> {updateStatus(props.props.id, "approve")}}>Approve</button> </>
+        }else if(props.props.status == "pending"){
+          component = <> <img src={deny}/></>
+        }else if(props.props.status == "success"){
+          component = <> <img src={allow}/></>
+        }else{
+          component = <> <img src={allow}/></>
+        }
+        return component
+      }
+
     return (
         <>
             <Navbar/>
@@ -63,8 +95,7 @@ function AdminDashboard () {
                         <td>{item.products?.map((item) =>(`${item.name} `))}</td>
                         <td class="yellow">{item.status}</td>
                         <td class="btnAction">
-                            <button class="cancel"  className="pointer" onClick={()=> {updateStatus(item.id, "cancel")}}>Cancel</button>
-                            <button class="approve"  className="pointer" onClick={()=> {updateStatus(item.id, "approve")}}>Approve</button>
+                          <Action props={item}/>
                         </td>
                     </tr>
                     ))}
