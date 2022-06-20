@@ -880,6 +880,16 @@ h5 {
     border: none;
     height: 40px;
   }
+  
+  .btnDelete button{
+    background-color: red;
+    color: #ffffff;
+    margin-top: 10px;
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    height: 40px;
+  }
 
   .detailLeft{
     margin-top:40px;

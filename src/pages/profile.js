@@ -10,7 +10,8 @@ import Trash from "../assets/trash.svg"
 import styles from "../styles/Profile.module.css";
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
-import Zayn from "../assets/zayn.png"
+import Zayn from "../assets/Profile-Img.png"
+import Icon from "../assets/Icon.png"
 
 
 
@@ -35,9 +36,19 @@ export default function Profile() {
     }
   };
 
+  const getTransactions = async () => {
+    try {
+      const response = await API.get("/transaction");
+      setTransaction(response.data.data);
+      console.log(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getProfile();
-    // console.log(state)
+    getTransactions();
   }, []);
   return (
     <>
@@ -73,10 +84,10 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div className={styles.products}>
+        <div className={styles.products} style={{height:400}}>
           <h4>My Transaction</h4>
          
-          
+          {transaction?.map((item) => (
               <div className={styles.product} >
                 <div className={styles.detailProduct}>
                   <img
@@ -85,9 +96,9 @@ export default function Profile() {
                     alt="menu pict"
                   />
                   <div className={styles.number}>
-                    <p className={styles.productName}>guetemala</p>
+                    <p className={styles.productName}>{item.products?.map((item) =>(`${item.name} `))}</p>
                     <p className={styles.date}>
-                      tanggal
+                      {item.createdAt}
                     </p>
                     <p className={styles.productPrice}>
                       Price : Rp 20
@@ -96,18 +107,18 @@ export default function Profile() {
                       Qty : 2
                     </p>
                     <p className={styles.subTotal}>
-                      Sub Total : 2
+                      Sub Total : {item.qty}
                     </p>
                   </div>
                 </div>
                 <div className={styles.productr}>
                   <img
-                    src=""
+                    src={Icon}
                     alt="waysbeans icon"
-                   
+                   style={{height:30}}
                   />
                   
-                    <div className={styles.status}>Success</div>
+                    <div className={styles.status}>{item.status}</div>
                 
                 
                  
@@ -122,6 +133,8 @@ export default function Profile() {
                 
                 </div>
               </div>
+          ))}
+          
            
         </div>
       </div>

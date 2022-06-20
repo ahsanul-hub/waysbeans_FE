@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
 import Guetemala from "../assets/Guetemala.png"
+import { UserContext } from '../context/userContext'
 
 import { API } from "../config/api";
 
 export default function  Detail() {
     const [product, setProduct] = useState([]);
     const [message, setMessage] = useState(null);
+    const [state] = useContext(UserContext)
     let navigate = useNavigate();  
 
     const { id } = useParams();
@@ -16,6 +18,7 @@ export default function  Detail() {
       const response = await API.get("/product/" + id);
       setProduct(response.data.data);
         console.log(product);
+        console.log(state)
     } catch (error) {
       console.log(error);
     }
@@ -80,6 +83,11 @@ export default function  Detail() {
                     <div className="btnDetail">
                         <button onClick={handleAddCart}>Add Cart</button>
                     </div>
+                    {state.user.status == "admin" ? (
+                    <div className="btnDelete">
+                        <button conClick={handleAddCart}>Delete</button>
+                    </div>
+                    ):(<></>) }
 
                 </div>
             </div>

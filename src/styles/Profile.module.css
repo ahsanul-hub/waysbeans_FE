@@ -89,6 +89,8 @@
     display: flex;
     flex-direction: column;
     margin-right: 10vw;
+    height: 700 !important;
+   overflow-y: auto !important;
   }
   .product {
     width: 36vw;

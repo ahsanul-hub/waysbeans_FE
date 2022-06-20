@@ -1,63 +1,73 @@
-import React from "react"
+import React, { useState, useContext, useEffect } from "react";
 import allow from "../assets/allow.png"
 import deny from "../assets/deny.png"
 import Navbar from "../components/navbar"
 
+import { API } from "../config/api";
+
+
 function AdminDashboard () {
+    const [transactions, setTransactions] = useState([]);
+
+    const getTransactions = async () => {
+        try {
+          const response = await API.get("/transactions");
+          setTransactions(response.data.data);
+          console.log(response.data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const updateStatus = async (id, status) => {
+    try {
+        const config = {
+            headers: {
+              "Content-type": "application/json",
+            },
+          };
+
+        const body = JSON.stringify({status: status});
+      const response = await API.patch(`/transaction/${id}`, body,config);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+    
+      useEffect(() => {
+        getTransactions();
+      }, []);
+
     return (
         <>
             <Navbar/>
             <body>
                 <h1 class="h1Admin">Income Transaction</h1>
-                <table>
+                <table className="mb-4">
                     <tr>
                         <th class="no">No</th>
                         <th class="name">Name</th>
                         <th class="addresAdmin">Address</th>
-                        <th>Post Code</th>
+                       
                         <th>Products Order</th>
                         <th>Status</th>
                         <th class="action">Action</th>
                     </tr>
+                    {transactions?.map((item, index) => (
                     <tr>
-                        <td>1</td>
-                        <td>Sugeng No Pants</td>
-                        <td>Cileungsi</td>
-                        <td>16820</td>
-                        <td>RWANDA Beans</td>
-                        <td class="yellow">Waiting Approve</td>
+                        <td>{index+1}</td>
+                        <td>{item.buyer.name}</td>
+                        <td>{item.address}</td>
+                        
+                        <td>{item.products?.map((item) =>(`${item.name} `))}</td>
+                        <td class="yellow">{item.status}</td>
                         <td class="btnAction">
-                            <button class="cancel">Cancel</button>
-                            <button class="approve">Approve</button>
+                            <button class="cancel"  classNAme="pointer" onClick={()=> {updateStatus(item.id, "cancel")}}>Cancel</button>
+                            <button class="approve"  classNAme="pointer" onClick={()=> {updateStatus(item.id, "approve")}}>Approve</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Haris Game</td>
-                        <td>Serang</td>
-                        <td>42111</td>
-                        <td>ETHIOPIA Beans</td>
-                        <td class="green">Succes</td>
-                        <td><img src={allow}/></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Aziz Union</td>
-                        <td>Bekasi</td>
-                        <td>13450</td>
-                        <td>GUETEMALA Beans</td>
-                        <td class="red">Cancel</td>
-                        <td><img src={deny}/></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Lee Tanjung Balai</td>
-                        <td>Tanjung Balai</td>
-                        <td>21331</td>
-                        <td>NICARAGUA Beans</td>
-                        <td class="blue">On The Way</td>
-                        <td><img src={allow}/></td>
-                    </tr>
+                    ))}
                 </table>
             </body>
         </>

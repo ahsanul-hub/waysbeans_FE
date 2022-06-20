@@ -11,6 +11,8 @@ export default function Complain () {
     const [contacts, setContacts] = useState([])
     const [messages, setMessages] = useState([])
     const [state] = useContext(UserContext)
+    const [input, setInput] = useState("")
+
 
     useEffect(() => {
         socket = io('http://localhost:5000', {
@@ -23,7 +25,7 @@ export default function Complain () {
         })
 
         socket.on("new message", () => {
-            console.log("contact : ", contact);
+            // console.log("contact : ", contact);
             socket.emit("load messages", contact?.id)
         })
 
@@ -33,6 +35,7 @@ export default function Complain () {
         });
         loadContact()
         loadMessages()
+        console.log(state.user)
 
         return () => {
             socket.disconnect()
@@ -83,12 +86,17 @@ export default function Complain () {
         }
     }
 
+    const onClick = (data) => {
+        console.log('masuk')
+      };
+
+      
     return (
         <>
             <Navbar/>
             <div className="containerComplain">
                <Contact dataContact={contacts} clickContact={onClickContact} contact={contact} />
-                <Chat contact={contact} messages={messages} user={state.user} sendMessage={onSendMessage} />
+                <Chat contact={contact} messages={messages} click={onClick} user={state.user} sendMessage={onSendMessage} />
             </div>
         </>
     )
