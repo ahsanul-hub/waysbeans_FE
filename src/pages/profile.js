@@ -107,7 +107,7 @@ export default function Profile() {
               <div className={styles.product} >
                 <div className={styles.detailProduct}>
                   <img
-                    src={Guetemala}
+                    src={`https://res.cloudinary.com/jakarta098/image/upload/v1655737110/${item.products[0].image}`}
                     className={styles.photoProduct}
                     alt="menu pict"
                   />
@@ -117,13 +117,13 @@ export default function Profile() {
                       {item.createdAt}
                     </p>
                     <p className={styles.productPrice}>
-                      Price : Rp 20
+                      Price : Rp {item.price}
                     </p>
                     <p className={styles.productQty}>
-                      Qty : 2
+                      Qty : {item.qty}
                     </p>
                     <p className={styles.subTotal}>
-                      Sub Total : {item.qty}
+                      Sub Total : {item.price}
                     </p>
                   </div>
                 </div>
@@ -136,14 +136,18 @@ export default function Profile() {
                   
                     <div className={styles.status}>{item.status}</div>
                 
-                
+                {item.status == 'on the way'? (
+                <button
+                className={styles.statuso}
+              onClick={()=> {updateStatus(item.id, "success")}}
+              >
+                Completed
+              </button>
+                ):( 
+                  <></>
+                )}
                  
-                    <button
-                      className={styles.statuso}
-                    onClick={()=> {updateStatus(item.id, "completed")}}
-                    >
-                      Completed
-                    </button>
+                  
                   
                     
                 

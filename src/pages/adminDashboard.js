@@ -40,33 +40,32 @@ function AdminDashboard () {
       }, []);
 
       function Action(props){
-        // const { status } = props.props.status
         let component
-        // switch(props.props.status) {
-        //   case "pending":
-        //     component = <> <button class="cancel"  className="cancel pointer" onClick={()=> {updateStatus(props.id, "cancel")}}>Cancel</button>
-        //     <button class="approve"  className=" approve pointer" onClick={()=> {updateStatus(props.id, "approve")}}>Approve</button> </>
-        //   break
-        //   case "success":
-        //     component = <> <img style={{marginLeft:65}} src={allow}/></>
-        //   break
-        //   case "cancel":
-        //     component = <> <img style={{marginLeft:65}} src={deny}/></>
-        //   case "On The Way":
-        //     component = <><img style={{marginLeft:65}} src={allow}/></>
-        //   break
-        //   default:
-        //     component = <></>
-        // }
-        if(props.props.status == "cancel"){
+        
+        if(props.props.status == "pending"){
           component = <> <button class="cancel"  className="cancel pointer" onClick={()=> {updateStatus(props.props.id, "cancel")}}>Cancel</button>
-            <button class="approve"  className=" approve pointer" onClick={()=> {updateStatus(props.props.id, "approve")}}>Approve</button> </>
-        }else if(props.props.status == "pending"){
+            <button class="approve"  className=" approve pointer" onClick={()=> {updateStatus(props.props.id, "on the way")}}>Approve</button> </>
+        }else if(props.props.status == "cancel"){
           component = <> <img src={deny}/></>
         }else if(props.props.status == "success"){
           component = <> <img src={allow}/></>
         }else{
           component = <> <img src={allow}/></>
+        }
+        return component
+      }
+
+      function Status(props){
+        let component
+        
+        if(props.props == "pending"){
+          component = <td className="text-warning">{props.props}</td>
+        }else if(props.props == "cancel"){
+          component = <td style={{color:"red"}}>{props.props}</td>
+        }else if(props.props == "success"){
+          component = <td className="text-success">{props.props}</td>
+        }else{
+          component = <td className="text-primary">{props.props}</td>
         }
         return component
       }
@@ -93,7 +92,8 @@ function AdminDashboard () {
                         <td>{item.address}</td>
                         
                         <td>{item.products?.map((item) =>(`${item.name} `))}</td>
-                        <td class="yellow">{item.status}</td>
+                        {/* <td class="yellow">{item.status}</td> */}
+                        <Status props={item.status}/>
                         <td class="btnAction">
                           <Action props={item}/>
                         </td>
