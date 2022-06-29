@@ -1,11 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-// import styles from "../styles/Landing.module.css";
-// import { Modal, Dropdown, NavDropdown } from "react-bootstrap";
 import { Link, Navigate } from "react-router-dom";
-// // import Transactions from "../components/Transactions";
-// //import stylesN from "../components/Navbar.module.css";
 import Navbar from "../components/navbar.js";
 import Jumbotron from "../assets/Jumbotron.png"
+import convertRupiah from "rupiah-format";
 
 
 
@@ -61,7 +58,7 @@ export default function Landing() {
                       {/* <img src={item.image} alt="icon" />   */}
                   <p className="productName">{item.name}</p>
                   <p className="productDesc" style={{ marginBottom: 0 }}>
-                    Rp.{item.price}
+                    {convertRupiah.convert(item.price)}
                   </p>
                   <p
                     className="productDesc"

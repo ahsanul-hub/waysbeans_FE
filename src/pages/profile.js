@@ -1,9 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-// import styles from "../styles/Landing.module.css";
 import { Modal, Dropdown, NavDropdown } from "react-bootstrap";
-// import { Link, Navigate } from "react-router-dom";
-// // import Transactions from "../components/Transactions";
-// //import stylesN from "../components/Navbar.module.css";
 import Navbar from "../components/navbar.js";
 import Guetemala from "../assets/Guetemala.png"
 import Trash from "../assets/trash.svg"
@@ -12,8 +8,8 @@ import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
 import Zayn from "../assets/Profile-Img.png"
 import Icon from "../assets/Icon.png"
-
-
+import dateFormat from "dateformat";
+import convertRupiah from "rupiah-format";
 
 
 export default function Profile() {
@@ -114,16 +110,16 @@ export default function Profile() {
                   <div className={styles.number}>
                     <p className={styles.productName}>{item.products?.map((item) =>(`${item.name} `))}</p>
                     <p className={styles.date}>
-                      {item.createdAt}
+                      {dateFormat(item.createdAt, "dddd, d mmmm yyyy")}
                     </p>
                     <p className={styles.productPrice}>
-                      Price : Rp {item.price}
+                      Price : {convertRupiah.convert(item.price)}
                     </p>
                     <p className={styles.productQty}>
                       Qty : {item.qty}
                     </p>
                     <p className={styles.subTotal}>
-                      Sub Total : {item.price}
+                      Sub Total : {convertRupiah.convert(item.price)}
                     </p>
                   </div>
                 </div>
